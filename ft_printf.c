@@ -5,56 +5,53 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: giromeo <giromeo@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/01 19:41:12 by giromeo           #+#    #+#             */
-/*   Updated: 2024/05/01 19:41:14 by giromeo          ###   ########.fr       */
+/*   Created: 2024/05/08 22:02:53 by giromeo           #+#    #+#             */
+/*   Updated: 2024/05/08 22:02:53 by giromeo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_printf.h" 
 
-void	ft_format(va_list va, char *str, size_t *counter)
+int	ft_printf(const char *ip, ...)
 {
-	if (*str == 'c')
-		ft_putchar_pf(va_arg(va, int), counter);
-	else if (*str == 's')
-		ft_putstr_pf(va_arg(va, char *), counter);
-	else if (*str == 'p')
-		ft_putptr_pf(va_arg(va, void *), counter);
-	else if (*str == 'i' || *str == 'd')
-		ft_putnbr_pf(va_arg(va, int), counter);
-	else if (*str == 'u')
-		ft_putuint_pf(va_arg(va, unsigned int), counter);
-	else if (*str == 'x' || *str == 'X')
-	{
-		if (*str == 'x')
-			ft_puthex_pf(va_arg(va, unsigned int), counter, HEX_LOW_BASE);
-		else
-			ft_puthex_pf(va_arg(va, unsigned int), counter, HEX_UPP_BASE);
-	}
-	else if (*str == '%')
-		ft_putchar_pf(*str, counter);
-}
+	t_list	*st;
+	int		tmp;
 
-int	ft_printf(char const *str, ...)
-{
-	va_list		va;
-	size_t		counter;
-
-	if (!str)
-		return (0);
-	counter = 0;
-	va_start(va, str);
-	while (*str)
+	st = (t_list *)malloc(sizeof(t_list));
+	tmp = 0;
+	st->i = 0;
+	st->ret = 0;
+	va_start(st->ap, ip);
+	while (ip[st->i])
 	{
-		if (*str == '%')
+		if (ip[st->i] == '%')
 		{
-			str++;
-			ft_format(va, (char *)str, &counter);
+			if (ip[++st->i] == '%')
+				ft_putchar(ip[st->i], 1, &st->ret, &st->i);
+			else
+				ft_format(st, ip);
 		}
 		else
-			ft_putchar_pf(*str, &counter);
-		str++;
+			ft_putchar_fd(ip[st->i++], 1, &st->ret);
 	}
-	va_end(va);
-	return (counter);
+	va_end(st->ap);
+	tmp = st->ret;
+	free(st);
+	return (tmp);
+}
+
+void	ft_format(t_list *st, const char *ip)
+{
+	if (ip[st->i] == 'c')
+		ft_putchar(va_arg(st->ap, int), 1, &st->ret, &st->i);
+	else if (ip[st->i] == 's')
+		ft_putstr_fd(va_arg(st->ap, char *), 1, &st->ret, &st->i);
+	else if (ip[st->i] == 'd' || ip[st->i] == 'i')
+		ft_putnbr_fd(va_arg(st->ap, int), 1, &st->ret, &st->i);
+	else if (ip[st->i] == 'u')
+		ft_putunbr_fd(va_arg(st->ap, unsigned int), 1, &st->ret, &st->i);
+	else if (ip[st->i] == 'X' || ip[st->i] == 'x')
+		ft_puthex(va_arg(st->ap, unsigned int), ip[st->i], &st->ret, &st->i);
+	else if (ip[st->i] == 'p')
+		ft_putptr(va_arg(st->ap, long long unsigned), &st->ret, 0, &st->i);
 }

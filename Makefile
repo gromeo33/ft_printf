@@ -5,36 +5,45 @@
 #                                                     +:+ +:+         +:+      #
 #    By: giromeo <giromeo@student.42roma.it>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/05/01 20:19:53 by giromeo           #+#    #+#              #
-#    Updated: 2024/05/01 20:19:56 by giromeo          ###   ########.fr        #
+#    Created: 2024/05/08 22:02:16 by giromeo           #+#    #+#              #
+#    Updated: 2024/05/08 22:02:22 by giromeo          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-
 NAME = libftprintf.a
 
-SRCS = ft_printf.c ft_putchar_pf.c ft_putstr_pf.c \
-       ft_putnbr_pf.c ft_putuint_pf.c ft_puthex_pf.c \
-       ft_putptr_pf.c ft_aux_pf.c
+OBJS = ${SRCS:.c=.o}
 
-OBJS = $(SRCS:.c=.o)
 
-CC = gcc
-CFLAGS = -Wall -Werror -Wextra
-RM = rm -rf
-AR = ar crs
+RM		= rm -f
 
-$(NAME): $(OBJS)
-	$(AR) $(NAME) $(OBJS)
+GCCF = gcc -Wall -Wextra -Werror
 
-all: $(NAME)
+LIB = ar -rcs
+
+SRCS =	ft_printf.c\
+		ft_putchar_fd.c\
+		ft_putchar.c\
+		ft_puthex.c\
+		ft_putnbr_fd.c\
+		ft_putunbr_fd.c\
+		ft_putstr_fd.c\
+		ft_strlen.c\
+		ft_putptr.c\
+
+.c.o:
+		${GCCF} -c $< -o ${<:.c=.o}
+
+$(NAME): ${OBJS}
+		${LIB} ${NAME} ${OBJS}
+
+all:	${NAME}
 
 clean:
-	$(RM) $(OBJS)
+		${RM} ${OBJS}
 
 fclean:	clean
-	$(RM) $(NAME)		
+		${RM} ${NAME}
 
-re:	fclean all
+re:		fclean all
 
-.PHONY:	all clean fclean re

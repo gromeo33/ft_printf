@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar_pf.c                                    :+:      :+:    :+:   */
+/*   ft_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: giromeo <giromeo@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/01 19:41:36 by giromeo           #+#    #+#             */
-/*   Updated: 2024/05/01 19:41:38 by giromeo          ###   ########.fr       */
+/*   Created: 2024/05/08 22:03:43 by giromeo           #+#    #+#             */
+/*   Updated: 2024/05/08 22:03:43 by giromeo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_putchar_pf(char c, size_t *counter)
+void	ft_putchar(char c, int fd, size_t *ret, size_t *i)
 {
-	write(1, &c, 1);
-	(*counter)++;
+	write(fd, &c, 1);
+	*ret = *ret + 1;
+	*i = *i + 1;
 }

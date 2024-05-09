@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_puthex_pf.c                                     :+:      :+:    :+:   */
+/*   ft_putunbr_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: giromeo <giromeo@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/01 19:41:46 by giromeo           #+#    #+#             */
-/*   Updated: 2024/05/01 19:41:51 by giromeo          ###   ########.fr       */
+/*   Created: 2024/05/08 22:05:03 by giromeo           #+#    #+#             */
+/*   Updated: 2024/05/08 22:05:03 by giromeo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_puthex_pf(unsigned int num, size_t *counter, char *base)
+void	ft_putunbr_fd(unsigned int n, int fd, size_t *ret, size_t *i)
 {
-	char	*str;
-
-	str = ft_aux_pf(num, base);
-	ft_putstr_pf(str, counter);
-	free(str);
+	if (n > 9)
+		ft_putunbr_fd(n / 10, fd, ret, i);
+	ft_putchar_fd(n % 10 + 48, fd, ret);
+	if (n < 10)
+		*i = *i + 1;
 }

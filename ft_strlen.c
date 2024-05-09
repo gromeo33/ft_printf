@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putptr_pf.c                                     :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: giromeo <giromeo@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/01 19:42:02 by giromeo           #+#    #+#             */
-/*   Updated: 2024/05/01 19:42:03 by giromeo          ###   ########.fr       */
+/*   Created: 2024/05/08 22:05:16 by giromeo           #+#    #+#             */
+/*   Updated: 2024/05/08 22:05:16 by giromeo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_putptr_pf(void *ptr, size_t *counter)
+size_t	ft_strlen(const char *str)
 {
-	char			*str;
-	unsigned long	ptr_address;
+	size_t	l;
 
-	ptr_address = (unsigned long)ptr;
-	ft_putstr_pf("0x", counter);
-	str = ft_aux_pf(ptr_address, HEX_LOW_BASE);
-	ft_putstr_pf(str, counter);
-	free(str);
+	l = 0;
+	while (str[l])
+		l++;
+	return (l);
 }
